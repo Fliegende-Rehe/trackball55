@@ -15,6 +15,8 @@ I'm more hardware engineer than programmer, so will appreciate any help in devel
 - Scroll mode vertical scroll and left/right arrow for horizontal movements
 - Led animation for different states
 
+![irl_photo](img/cad_home.png)
+
 ### Main components list
 - [PAW3805EK-CJV1 aliexpress ~12.35$](https://aliexpress.ru/item/1005006306592503.html?spm=a2g2w.orderdetail.0.0.467d4aa6BD8HBg&sku_id=12000036695485298&_ga=2.89872158.441509916.1754381694-1577428535.1744108925)   
 - [Track 55mm aliexpress ~12.35$](https://aliexpress.ru/item/1005006306592503.html?spm=a2g2w.orderdetail.0.0.467d4aa6BD8HBg&sku_id=12000036695485298&_ga=2.89872158.441509916.1754381694-1577428535.1744108925)  

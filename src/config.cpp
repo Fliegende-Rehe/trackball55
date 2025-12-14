@@ -2,7 +2,7 @@
 
 /* ================= LED ================= */
 uint32_t LED_COLOR = 0x40A0FF;
-const int LED_INTERVAL_MS = 200;
+const int LED_INTERVAL_MS = 1001;
 
 /* ================= TRACKBALL ================= */
 const double SENSITIVITY_X = 0.05;
