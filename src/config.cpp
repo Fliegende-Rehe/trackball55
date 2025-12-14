@@ -1,8 +1,10 @@
 #include "config.h"
 
 /* ================= LED ================= */
-uint32_t LED_COLOR = 0x40A0FF;
+uint32_t LED_MOUSE_COLOR = 0x40A0FF;
+uint32_t LED_SCROLL_COLOR = 0x77DD77;
 const int LED_INTERVAL_MS = 100;
+uint8_t  LED_BRIGHTNESS  = 10;  
 
 /* ================= TRACKBALL ================= */
 const double SENSITIVITY_X = 0.05;

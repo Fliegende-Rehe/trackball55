@@ -11,41 +11,69 @@ static bool breatheUp = true;
 
 void initLed() {
   leds.begin();
-  leds.setBrightness(50);
+  leds.setBrightness(LED_BRIGHTNESS);
   leds.show();
 }
 
-void updateLedAnimation() {
-  ledRotateAnimation();
-  // ledBreatheAnimation();
+void updateLedAnimation(bool scrollMode) {
+  // ledRotateAnimation(scrollMode);
+  ledBreatheAnimation(scrollMode);
 }
 
 /* ---------- ROTATE ---------- */
-void ledRotateAnimation() {
-  if (millis() - lastLedUpdate < LED_INTERVAL_MS) return;
-  lastLedUpdate = millis();
+void ledRotateAnimation(bool scrollMode) {
+    static uint32_t lastUpdate = 0;
+    static int index = 0;
 
-  leds.clear();
-  leds.setPixelColor(ledIndex, LED_COLOR);
-  ledIndex = (ledIndex + 1) % LED_COUNT;
-  leds.show();
+    uint32_t now = millis();
+    if (now - lastUpdate < LED_INTERVAL_MS)
+        return;
+
+    lastUpdate = now;
+
+    uint32_t color = scrollMode ? LED_SCROLL_COLOR : LED_MOUSE_COLOR;
+
+    for (int i = 0; i < LED_COUNT; i++)
+        leds.setPixelColor(i, 0);
+
+    leds.setPixelColor(index, color);
+
+    index++;
+    if (index >= LED_COUNT)
+        index = 0;
+
+    leds.show();
 }
 
 /* ---------- BREATHE ---------- */
-void ledBreatheAnimation() {
-  if (millis() - lastLedUpdate < LED_INTERVAL_MS) return;
-  lastLedUpdate = millis();
+void ledBreatheAnimation(bool scrollMode) {
+    static uint32_t lastUpdate = 0;
+    static float phase = 0.0f;  // progress through sine wave
 
-  breathe += breatheUp ? 4 : -4;
-  if (breathe >= 255) breatheUp = false;
-  if (breathe <= 0)   breatheUp = true;
+    uint32_t now = millis();
+    if (now - lastUpdate < 20)  // update ~50Hz
+        return;
 
-  uint8_t r = ((LED_COLOR >> 16) & 0xFF) * breathe / 255;
-  uint8_t g = ((LED_COLOR >> 8)  & 0xFF) * breathe / 255;
-  uint8_t b = (LED_COLOR & 0xFF) * breathe / 255;
+    lastUpdate = now;
 
-  for (int i = 0; i < LED_COUNT; i++)
-    leds.setPixelColor(i, r, g, b);
+    // Calculate brightness using sine wave
+    float brightnessFactor = (sinf(phase) + 1.0f) / 2.0f; // 0..1
+    uint32_t baseColor = scrollMode ? LED_SCROLL_COLOR : LED_MOUSE_COLOR;
 
-  leds.show();
+    uint8_t r = ((baseColor >> 16) & 0xFF) * brightnessFactor;
+    uint8_t g = ((baseColor >> 8) & 0xFF) * brightnessFactor;
+    uint8_t b = (baseColor & 0xFF) * brightnessFactor;
+
+    uint32_t color = leds.Color(r, g, b);
+
+    // Set all LEDs to same color
+    for (int i = 0; i < LED_COUNT; i++)
+        leds.setPixelColor(i, color);
+
+    leds.show();
+
+    // Advance phase
+    phase += 0.05f; // adjust speed here
+    if (phase >= 2.0f * 3.14159265f)
+        phase -= 2.0f * 3.14159265f;
 }

@@ -13,7 +13,9 @@ constexpr uint16_t TAPPING_TERM_MS       = 200;
 constexpr uint16_t REQUIRE_PRIOR_IDLE_MS = 150;
 
 /* ================= LED ================= */
-extern uint32_t LED_COLOR;
+extern uint32_t LED_MOUSE_COLOR;
+extern uint32_t LED_SCROLL_COLOR;
+extern uint8_t LED_BRIGHTNESS;
 extern const int LED_INTERVAL_MS;
 
 /* ================= TRACKBALL ================= */

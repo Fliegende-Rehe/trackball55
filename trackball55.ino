@@ -15,5 +15,5 @@ void setup() {
 void loop() {
   handleButtons(scrollMode);
   handleTrackball(scrollMode);
-  updateLedAnimation();
+  updateLedAnimation(scrollMode);
 }
