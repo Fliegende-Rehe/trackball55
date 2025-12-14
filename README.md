@@ -20,7 +20,7 @@ I'm more hardware engineer than programmer, so will appreciate any help in devel
 ### Main components list
 - [PAW3805EK-CJV1 aliexpress ~12.35$](https://aliexpress.ru/item/1005006306592503.html?spm=a2g2w.orderdetail.0.0.467d4aa6BD8HBg&sku_id=12000036695485298&_ga=2.89872158.441509916.1754381694-1577428535.1744108925)   
 - [Track 55mm aliexpress ~12.35$](https://aliexpress.ru/item/1005006306592503.html?spm=a2g2w.orderdetail.0.0.467d4aa6BD8HBg&sku_id=12000036695485298&_ga=2.89872158.441509916.1754381694-1577428535.1744108925)  
-- [Roller bearing SP8 PL/CS (SP8 B-D) ozon ~2.54$](https://www.ozon.ru/product/sharikovaya-opora-sp8-pl-cs-sp8-b-d-zhlru-1644244051/?oos_search=false)
+- [Roller bearing SP8 PL/CS (SP8 B-D) ozon ~2.54$](https://www.ozon.ru/product/sharikovaya-opora-sp8-pl-cs-sp8-b-d-zhlru-1644244051/?oos_search=false) (cheap bu too noisy, need to find alternative)
 
 ![insides](img/insides.jpg)
 
@@ -39,3 +39,9 @@ To wire it I use (add wiring scheme later):
 1) First u neeed to clone this repo
 2) The set [Ardino additional URL for YD-RP2040 board](https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json)   
 3) Connect contoller and upload code via Arduino IDE
+
+
+### Current issues by importance:
+1) Noisy bearings - I get best balling experience with them and they very cheap by noise is too loud
+2) My ultimate goal is to mount the trackball on the chair, so it’s necessary  to implement a wireless option
+3) Need to move away from Arduino, to something more suitable for different input methods with a wider functionality

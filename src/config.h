@@ -32,7 +32,7 @@ extern bool invertY;
 extern bool swapXY;
 
 constexpr int LED_PIN   = 13;
-constexpr int LED_COUNT = 11;
+constexpr int LED_COUNT = 10;
 
 constexpr int BTN_LEFT  = 14;
 constexpr int BTN_RIGHT = 15;
