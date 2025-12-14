@@ -1,5 +1,5 @@
-#include "config.h"
 #include "leds.h"
+#include "config.h"
 
 static Adafruit_NeoPixel leds(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 

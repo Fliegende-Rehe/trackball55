@@ -6,7 +6,7 @@ My idea to make cheap adjustable solutions for new ballers (idk how its called).
 I'm more hardware engineer than programmer, so will appreciate any help in development or suggestions. For now vibe code something working with GPT, but later want to rewrite everything and maybe move from arduino, also there is problem with horizontal scroll.
 
 
-![irl_photo](img/irl2.jpg)
+![irl2](img/irl2.jpg)
 
 ### Current fucntionality
 - Mouse mode
@@ -15,12 +15,14 @@ I'm more hardware engineer than programmer, so will appreciate any help in devel
 - Scroll mode vertical scroll and left/right arrow for horizontal movements
 - Led animation for different states
 
-![irl_photo](img/cad_home.png)
+![cad_home](img/cad_home.png)
 
 ### Main components list
 - [PAW3805EK-CJV1 aliexpress ~12.35$](https://aliexpress.ru/item/1005006306592503.html?spm=a2g2w.orderdetail.0.0.467d4aa6BD8HBg&sku_id=12000036695485298&_ga=2.89872158.441509916.1754381694-1577428535.1744108925)   
 - [Track 55mm aliexpress ~12.35$](https://aliexpress.ru/item/1005006306592503.html?spm=a2g2w.orderdetail.0.0.467d4aa6BD8HBg&sku_id=12000036695485298&_ga=2.89872158.441509916.1754381694-1577428535.1744108925)  
 - [Roller bearing SP8 PL/CS (SP8 B-D) ozon ~2.54$](https://www.ozon.ru/product/sharikovaya-opora-sp8-pl-cs-sp8-b-d-zhlru-1644244051/?oos_search=false)
+
+![insides](img/insides.jpg)
 
 ### Wiring
 In current implementation I use *YD-RP2040 by VCC-GND Studio* but plant to migrate to something wireless  

@@ -1,73 +1,86 @@
-#include "config.h"
 #include "buttons.h"
+#include "config.h"
 
-struct ButtonState {
-    bool pressed      = false;  // current physical state
-    bool held         = false;  // hold detected
-    bool tapSent      = false;  // tap already sent
-    uint32_t pressTime = 0;     // time of press
+constexpr uint16_t DEBOUNCE_MS = 20;
+
+struct Button {
+    bool physState = false;      // raw read
+    bool stableState = false;    // debounced
+    uint32_t lastChange = 0;
+
+    bool active = false;         // logical pressed
+    bool decided = false;        // tap/hold decided
+    uint32_t pressTime = 0;
 };
 
-static ButtonState leftBtn;
-static ButtonState rightBtn;
-static uint32_t lastIdle = 0;
+static Button leftBtn;
+static Button rightBtn;
+
+static bool debounce(Button &b, bool raw, uint32_t now) {
+    if (raw != b.physState) {
+        b.physState = raw;
+        b.lastChange = now;
+    }
+
+    if ((now - b.lastChange) >= DEBOUNCE_MS) {
+        if (b.stableState != raw) {
+            b.stableState = raw;
+            return true; // edge
+        }
+    }
+    return false;
+}
 
 void initButtons() {
     pinMode(BTN_LEFT, INPUT_PULLUP);
     pinMode(BTN_RIGHT, INPUT_PULLUP);
 }
 
-/* ZMK-like hold-tap for RIGHT, LEFT = normal */
 void handleButtons(bool &scrollMode) {
     uint32_t now = millis();
 
-    // ---------------- LEFT BUTTON ----------------
-    bool leftPressed = digitalRead(BTN_LEFT) == LOW;
-    if (leftPressed && !leftBtn.pressed) {
-        leftBtn.pressed = true;
-        leftBtn.pressTime = now;
-        Mouse.press(MOUSE_LEFT);
-    } else if (!leftPressed && leftBtn.pressed) {
-        leftBtn.pressed = false;
-        Mouse.release(MOUSE_LEFT);
-        lastIdle = now;
-    }
+    bool rawLeft  = digitalRead(BTN_LEFT)  == LOW;
+    bool rawRight = digitalRead(BTN_RIGHT) == LOW;
 
-    // ---------------- RIGHT BUTTON ----------------
-    bool rightPressed = digitalRead(BTN_RIGHT) == LOW;
-
-    if (rightPressed && !rightBtn.pressed) {
-        // Button just pressed
-        rightBtn.pressed = true;
-        rightBtn.held = false;
-        rightBtn.tapSent = false;
-        rightBtn.pressTime = now;
-    }
-
-    if (rightBtn.pressed) {
-        uint32_t heldTime = now - rightBtn.pressTime;
-
-        // If held long enough → scroll mode
-        if (!rightBtn.held && heldTime >= TAPPING_TERM_MS) {
-            scrollMode = true;
-            rightBtn.held = true;
+    // ================= LEFT BUTTON =================
+    if (debounce(leftBtn, rawLeft, now)) {
+        if (leftBtn.stableState) {
+            // pressed
+            Mouse.press(MOUSE_LEFT);
+        } else {
+            // released
+            Mouse.release(MOUSE_LEFT);
         }
+    }
 
-        // On release
-        if (!rightPressed) {
-            if (!rightBtn.held && !rightBtn.tapSent && heldTime <= QUICK_TAP_MS) {
-                // Quick tap → send right click once
-                Mouse.click(MOUSE_RIGHT);
-                rightBtn.tapSent = true;
+    // ================= RIGHT BUTTON =================
+    if (debounce(rightBtn, rawRight, now)) {
+
+        if (rightBtn.stableState) {
+            // pressed
+            rightBtn.active = true;
+            rightBtn.decided = false;
+            rightBtn.pressTime = now;
+        } else {
+            // released
+            if (rightBtn.active && !rightBtn.decided) {
+                uint32_t dt = now - rightBtn.pressTime;
+                if (dt <= QUICK_TAP_MS) {
+                    Mouse.click(MOUSE_RIGHT);
+                }
             }
+
             scrollMode = false;
-            rightBtn.pressed = false;
-            rightBtn.held = false;
-            rightBtn.tapSent = false;
-            lastIdle = now;
+            rightBtn.active = false;
+            rightBtn.decided = false;
         }
     }
 
-    // ---------------- Idle tracking ----------------
-    if (!leftBtn.pressed && !rightBtn.pressed) lastIdle = now;
+    // HOLD detection (scroll mode)
+    if (rightBtn.active && !rightBtn.decided) {
+        if ((now - rightBtn.pressTime) >= TAPPING_TERM_MS) {
+            scrollMode = true;
+            rightBtn.decided = true; // lock decision
+        }
+    }
 }
