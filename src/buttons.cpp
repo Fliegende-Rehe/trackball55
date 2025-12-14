@@ -1,10 +1,5 @@
 #include "buttons.h"
 #include "config.h"
-#include <Mouse.h>
-#include <Arduino.h>
-
-constexpr int BTN_LEFT  = 14;
-constexpr int BTN_RIGHT = 15;
 
 static uint32_t lastIdle = 0;
 static uint32_t pressTime = 0;

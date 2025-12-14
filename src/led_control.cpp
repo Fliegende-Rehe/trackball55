@@ -1,9 +1,5 @@
 #include "led_control.h"
 #include "config.h"
-#include <Adafruit_NeoPixel.h>
-
-constexpr int LED_PIN   = 13;
-constexpr int LED_COUNT = 11;
 
 static Adafruit_NeoPixel leds(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 
