@@ -1,5 +1,5 @@
 #include "src/config.h"
-#include "src/led_control.h"
+#include "src/leds.h"
 #include "src/trackball.h"
 #include "src/buttons.h"
 

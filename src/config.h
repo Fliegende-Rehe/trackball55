@@ -1,18 +1,19 @@
 #pragma once
 
 #include <Mouse.h>
+// #include <Keyboard.h>
 #include <Arduino.h>
 #include <Adafruit_NeoPixel.h>
 #include <SPI.h>
 #include <cmath>
 
 /* ================= TIMING ================= */
-constexpr uint16_t QUICK_TAP_MS          = 150;
+constexpr uint16_t QUICK_TAP_MS          = 180;
 constexpr uint16_t TAPPING_TERM_MS       = 200;
-constexpr uint16_t REQUIRE_PRIOR_IDLE_MS = 100;
+constexpr uint16_t REQUIRE_PRIOR_IDLE_MS = 150;
 
 /* ================= LED ================= */
-extern uint32_t SKY_BLUE;
+extern uint32_t LED_COLOR;
 extern const int LED_INTERVAL_MS;
 
 /* ================= TRACKBALL ================= */

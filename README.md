@@ -1,8 +1,9 @@
 # trackball55
 
 Open source trackball project for PAW3805EK-CJV1 sensor.    
+My idea to make cheap adjustable solutions for new ballers (idk how its called).  
 
-I'm more hardware engineer than programmer, so will appreciate any help in development or suggestions. For now vibe code something working with GPT, but later want to rewrite everything and maybe move from arduino.
+I'm more hardware engineer than programmer, so will appreciate any help in development or suggestions. For now vibe code something working with GPT, but later want to rewrite everything and maybe move from arduino, also there is problem with horizontal scroll.
 
 
 ![irl_photo](img/irl2.jpg)
@@ -11,10 +12,10 @@ I'm more hardware engineer than programmer, so will appreciate any help in devel
 - Mouse mode
 - Left mouse click
 - Right mouse click (when held trackball enters scroll mode)
-- Scroll mode    
+- Scroll mode vertical scroll and left/right arrow for horizontal movements
 - Led animation for different states
 
-### Components list
+### Main components list
 - [PAW3805EK-CJV1 aliexpress ~12.35$](https://aliexpress.ru/item/1005006306592503.html?spm=a2g2w.orderdetail.0.0.467d4aa6BD8HBg&sku_id=12000036695485298&_ga=2.89872158.441509916.1754381694-1577428535.1744108925)   
 - [Track 55mm aliexpress ~12.35$](https://aliexpress.ru/item/1005006306592503.html?spm=a2g2w.orderdetail.0.0.467d4aa6BD8HBg&sku_id=12000036695485298&_ga=2.89872158.441509916.1754381694-1577428535.1744108925)  
 - [Roller bearing SP8 PL/CS (SP8 B-D) ozon ~2.54$](https://www.ozon.ru/product/sharikovaya-opora-sp8-pl-cs-sp8-b-d-zhlru-1644244051/?oos_search=false)

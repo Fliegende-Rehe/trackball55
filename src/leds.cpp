@@ -1,5 +1,5 @@
-#include "led_control.h"
 #include "config.h"
+#include "leds.h"
 
 static Adafruit_NeoPixel leds(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 
@@ -26,7 +26,7 @@ void ledRotateAnimation() {
   lastLedUpdate = millis();
 
   leds.clear();
-  leds.setPixelColor(ledIndex, SKY_BLUE);
+  leds.setPixelColor(ledIndex, LED_COLOR);
   ledIndex = (ledIndex + 1) % LED_COUNT;
   leds.show();
 }
@@ -40,9 +40,9 @@ void ledBreatheAnimation() {
   if (breathe >= 255) breatheUp = false;
   if (breathe <= 0)   breatheUp = true;
 
-  uint8_t r = ((SKY_BLUE >> 16) & 0xFF) * breathe / 255;
-  uint8_t g = ((SKY_BLUE >> 8)  & 0xFF) * breathe / 255;
-  uint8_t b = (SKY_BLUE & 0xFF) * breathe / 255;
+  uint8_t r = ((LED_COLOR >> 16) & 0xFF) * breathe / 255;
+  uint8_t g = ((LED_COLOR >> 8)  & 0xFF) * breathe / 255;
+  uint8_t b = (LED_COLOR & 0xFF) * breathe / 255;
 
   for (int i = 0; i < LED_COUNT; i++)
     leds.setPixelColor(i, r, g, b);
