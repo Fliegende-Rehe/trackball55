@@ -12,11 +12,18 @@ constexpr uint16_t QUICK_TAP_MS          = 180;
 constexpr uint16_t TAPPING_TERM_MS       = 200;
 constexpr uint16_t REQUIRE_PRIOR_IDLE_MS = 150;
 
+/* ---------- DEVICE STATE ---------- */
+enum DeviceState : uint8_t {
+    MOUSE_STATE  = 0,
+    SCROLL_STATE = 1,
+    MIDDLE_STATE = 2
+};
+
 /* ================= LED ================= */
 extern uint32_t LED_MOUSE_COLOR;
 extern uint32_t LED_SCROLL_COLOR;
+extern uint32_t LED_MIDDLE_COLOR;
 extern uint8_t LED_BRIGHTNESS;
-extern const int LED_INTERVAL_MS;
 
 /* ================= TRACKBALL ================= */
 extern const double SENSITIVITY_X;
@@ -33,11 +40,14 @@ extern bool invertX;
 extern bool invertY;
 extern bool swapXY;
 
+/* ---------- LED PARAMS ---------- */
 constexpr int LED_PIN   = 13;
 constexpr int LED_COUNT = 10;
 
-constexpr int BTN_LEFT  = 14;
-constexpr int BTN_RIGHT = 15;
+/* ---------- BUTTON PINS ---------- */
+constexpr uint8_t BTN_LEFT  = 14;
+constexpr uint8_t BTN_RIGHT = 15;
+constexpr uint16_t DEBOUNCE_MS = 20;
 
 /* ===== PAW3805 SPI ===== */
 constexpr int CS_PIN = 17;

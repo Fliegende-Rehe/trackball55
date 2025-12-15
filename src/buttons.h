@@ -1,4 +1,5 @@
+#include <cstdint>
 #pragma once
 
 void initButtons();
-void handleButtons(bool &scrollMode);
+void handleButtons(uint8_t &curState);

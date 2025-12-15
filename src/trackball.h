@@ -1,4 +1,5 @@
+#include <cstdint>
 #pragma once
 
 void initTrackball();
-void handleTrackball(bool scrollMode);
+void handleTrackball(uint8_t &curState);

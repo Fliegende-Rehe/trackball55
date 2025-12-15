@@ -3,7 +3,7 @@
 #include "src/trackball.h"
 #include "src/buttons.h"
 
-bool scrollMode = false;
+uint8_t curState = MOUSE_STATE;
 
 void setup() {
   Mouse.begin();
@@ -13,7 +13,7 @@ void setup() {
 }
 
 void loop() {
-  handleButtons(scrollMode);
-  handleTrackball(scrollMode);
-  updateLedAnimation(scrollMode);
+  handleButtons(curState);
+  handleTrackball(curState);
+  updateLedAnimation(curState);
 }

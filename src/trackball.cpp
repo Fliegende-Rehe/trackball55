@@ -73,7 +73,7 @@ void initTrackball() {
 
 /* ================= Main handler ================= */
 
-void handleTrackball(bool scrollMode) {
+void handleTrackball(uint8_t &curState) {
     if (!sensorReady())
         return;
 
@@ -98,7 +98,7 @@ void handleTrackball(bool scrollMode) {
     if (swapXY)  std::swap(x, y);
 
     /* ================= SCROLL MODE ================= */
-    if (scrollMode) {
+    if (curState == SCROLL_STATE) {
         x *= SENSITIVITY_SCROLL;
         y *= SENSITIVITY_SCROLL;
 
