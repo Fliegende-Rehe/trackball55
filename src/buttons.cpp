@@ -14,12 +14,13 @@ struct Button {
 static Button leftBtn;
 static Button rightBtn;
 
+static bool middlePressed = false;
+
 static bool debounce(Button &b, bool raw, uint32_t now) {
     if (raw != b.phys) {
         b.phys = raw;
         b.lastChange = now;
     }
-
     if ((now - b.lastChange) >= DEBOUNCE_MS) {
         if (b.stable != raw) {
             b.stable = raw;
@@ -40,45 +41,53 @@ void handleButtons(uint8_t &curState) {
     bool rawLeft  = digitalRead(BTN_LEFT)  == LOW;
     bool rawRight = digitalRead(BTN_RIGHT) == LOW;
 
-    /* ---------- LEFT BUTTON ---------- */
-    if (debounce(leftBtn, rawLeft, now)) {
-        if (leftBtn.stable)
-            Mouse.press(MOUSE_LEFT);
-        else
-            Mouse.release(MOUSE_LEFT);
-    }
+    debounce(leftBtn, rawLeft, now);
+    debounce(rightBtn, rawRight, now);
 
-    /* ---------- BOTH BUTTONS = MIDDLE ---------- */
+    // ---------- MIDDLE STATE ----------
     if (leftBtn.stable && rightBtn.stable) {
         curState = MIDDLE_STATE;
-        Mouse.press(MOUSE_MIDDLE);
-        return;
+        if (!middlePressed) {
+            Mouse.release(MOUSE_LEFT);
+            Mouse.release(MOUSE_RIGHT);
+            Mouse.press(MOUSE_MIDDLE);
+            middlePressed = true;
+        }
+        return; // skip other button handling
     } else {
-        Mouse.release(MOUSE_MIDDLE);
-    }
-
-    /* ---------- RIGHT BUTTON (tap / hold) ---------- */
-    if (debounce(rightBtn, rawRight, now)) {
-        if (rightBtn.stable) {
-            rightBtn.active = true;
-            rightBtn.decided = false;
-            rightBtn.pressTime = now;
-        } else {
-            if (rightBtn.active && !rightBtn.decided) {
-                if ((now - rightBtn.pressTime) <= QUICK_TAP_MS)
-                    Mouse.click(MOUSE_RIGHT);
-            }
-
-            rightBtn.active = false;
-            rightBtn.decided = false;
-            curState = MOUSE_STATE;
+        if (middlePressed) {
+            Mouse.release(MOUSE_MIDDLE);
+            middlePressed = false;
         }
     }
 
-    if (rightBtn.active && !rightBtn.decided) {
-        if ((now - rightBtn.pressTime) >= TAPPING_TERM_MS) {
-            curState = SCROLL_STATE;
-            rightBtn.decided = true;
+    // ---------- RIGHT BUTTON (hold → scroll, tap → right click) ----------
+    if (rightBtn.stable && !rightBtn.active) {
+        rightBtn.active = true;
+        rightBtn.decided = false;
+        rightBtn.pressTime = now;
+    } else if (!rightBtn.stable && rightBtn.active) {
+        // Released
+        if (!rightBtn.decided && (now - rightBtn.pressTime <= QUICK_TAP_MS)) {
+            Mouse.click(MOUSE_RIGHT);
         }
+        rightBtn.active = false;
+        rightBtn.decided = false;
     }
+
+    if (rightBtn.active && !rightBtn.decided && (now - rightBtn.pressTime >= TAPPING_TERM_MS)) {
+        curState = SCROLL_STATE;
+        rightBtn.decided = true;
+    }
+
+    // ---------- LEFT BUTTON (normal mouse left) ----------
+    if (leftBtn.stable) {
+        Mouse.press(MOUSE_LEFT);
+    } else {
+        Mouse.release(MOUSE_LEFT);
+    }
+
+    // Default to mouse state if nothing else
+    if (!rightBtn.active && !middlePressed)
+        curState = MOUSE_STATE;
 }

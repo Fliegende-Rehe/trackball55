@@ -9,8 +9,8 @@ uint8_t  LED_BRIGHTNESS  = 75;
 /* ================= TRACKBALL ================= */
 const double SENSITIVITY_X = 0.05;
 const double SENSITIVITY_Y = 0.09;
-const double ACCEL_POWER  = 1.5;
-const double GLOBAL_SENSITIVITY = 0.12;
+const double ACCEL_POWER  = 1.4;
+const double GLOBAL_SENSITIVITY = 0.14;
 
 /* ================= SCROLL ================= */
 const double SENSITIVITY_SCROLL = 0.005;
