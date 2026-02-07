@@ -17,7 +17,7 @@ void initLed() {
 // --- wrapper to call chosen animation ---
 void updateLedAnimation(uint8_t &curState) {
     // Pass your desired interval in ms per animation
-    ledBreatheAnimation(curState, 75);
+    ledBreatheAnimation(curState, 50);
     // ledRotateAnimation(curState, 100);
     // ledSolidAnimation(curState, 50);
     // ledRainbowAnimation(curState, 50);
